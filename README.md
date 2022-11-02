@@ -15,8 +15,10 @@ Notice: Because e2e-detection supports to benchmark PyTorch models of diverse ap
 > As a deep learning engineer, I highly recommend you use pre-trained models from [SenseTime-MMLab](https://github.com/open-mmlab) because the team is extremely active to develop advanced deep learning models for diverse tasks in video analytics (_i.e.,_ image classification ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmclassification.svg), object detection ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdetection.svg), semantic segmentation ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmsegmentation.svg), text detection ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmocr.svg), 3d object detection ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdetection3d.svg), pose estimation ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmpose.svg) and video understanding based on action ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmaction2.svg)).
 <!-- ![applications](https://user-images.githubusercontent.com/40779233/188411410-a95bcf39-1d2a-4d41-865c-c725b3d715f0.png) -->
 
-## Benchmark pipeline
+## Pipelines
+We provide a basic benchmark pipeline and an advanced video analytics pipeline for users. Details are shown in figures above
 ![pipeline](https://github.com/Jason-cs18/e2e-detection/blob/main/out/media/pipeline/pipeline.png)
+![pipeline](https://github.com/Jason-cs18/e2e-detection/blob/main/out/media/deployment/deployment.png)
 ## Contents
  xxx
 ## Inference Engines
@@ -49,6 +51,10 @@ MMDeploy ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdeploy
     - [ ] benchmark the model
     - [ ] generate the report
     - [ ] run the pipeline with a docker
+3. Client applications
+   - [ ] send/receive http requests
+   - [ ] parse the results
+   - [ ] run the pipeline with a docker
 ## References
 1. [MMDetection: OpenMMLab Detection Toolbox and Benchmark](https://github.com/open-mmlab/mmdetection)
 2. [OpenPPL: A primitive library for neural network](https://github.com/openppl-public/ppl.nn)

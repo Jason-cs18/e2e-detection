@@ -1,4 +1,5 @@
 @startuml
+title: Benchmarking
 actor user
 node model_conversion
 node model_deployment
