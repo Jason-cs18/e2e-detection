@@ -1,7 +1,7 @@
 # e2e-detection
 e2e-detection is a toolkit to help deep learning engineers test their PyTorch models on popular inference engines. 
 
-## Why we need e2e-detection
+## Why we need e2e-detection?
 Usually, machine learning scientists train a model via deep learning frameworks (_i.e.,_ PyTorch and TensorFlow), and engineers deploy it to an inference engine. Unfortunately, most inference engines require users to converse and configure models manually. Thus, the deployment stage needs many engineering efforts. Especially for many advanced deep learning models, engineers must try them individually to ensure that engines support them.
 
 To bridge the gap, we develop e2e-detection to help deep learning engineers benchmark their models on popular inference engines automatically. 
