@@ -1,11 +1,14 @@
 # e2e-detection
-e2e-detection is a toolkit to help deep learning engineers test their PyTorch models on popular inference engines. Usually, machine learning scientists train a model via deep learning frameworks (_i.e.,_ PyTorch and TensorFlow), and engineers deploy it to an inference engine. Unfortunately, most inference engines require users to converse and configure models manually. Thus, the deployment stage needs many engineering efforts. Especially for many advanced deep learning models, engineers must try them individually to ensure that engines support them.
+e2e-detection is a toolkit to help deep learning engineers test their PyTorch models on popular inference engines. 
+
+## Why we need e2e-detection
+Usually, machine learning scientists train a model via deep learning frameworks (_i.e.,_ PyTorch and TensorFlow), and engineers deploy it to an inference engine. Unfortunately, most inference engines require users to converse and configure models manually. Thus, the deployment stage needs many engineering efforts. Especially for many advanced deep learning models, engineers must try them individually to ensure that engines support them.
 
 To bridge the gap, we develop e2e-detection to help deep learning engineers benchmark their models on popular inference engines automatically. 
+## What can we do?
+With e2e-detection, you only need to select a pre-trained model and a specific inference engine. Then, the tool will converse the model and test it on the engine automatically. Finally, you will get a report for the model. The report contains (1) benchmark setup (2) testing device (3) model basic info (4) testing data (5) output (6) resource usage.
 
-With e2e-detection, you only need to select a pre-trained model and a specific inference engine. Then, the tool will converse the model and test it on the engine automatically. Finally, you will get a report for the model. The report contains (1) benchmark setup (2) testing device (3) model basic info (4) testing data (5) output (6) resource usage. 
-
-Notice: To test diverse pre-trained models, I choose to use pre-trained models from [SenseTime-MMLab](https://github.com/open-mmlab) directly, which is a popular deep learning model factory. If you want to test your customized PyTorch/TensorFlow models, you need to modify the converse.py manually. 
+Notice: Because e2e-detection supports to test pre-trained models of diverse applications, we choose [SenseTime-MMLab](https://github.com/open-mmlab) as the model zoo/factory. If you want to test the customized PyTorch/TensorFlow models, you need to modify the converse script (xxx.py) manually. 
 
 <!-- have tested many pretrained models from a popular object detection library ([SenseTime-MMLab mmdetection](https://github.com/open-mmlab/mmdetection)) on two inference engines ([SenseTime-MMLab OpenPPL](https://github.com/openppl-public/ppl.nn) and [Nvidia Triton](https://github.com/triton-inference-server/server)).  -->
 
