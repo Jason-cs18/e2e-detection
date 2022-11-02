@@ -8,7 +8,7 @@ To bridge the gap, we develop e2e-detection to help deep learning engineers benc
 ## What can we do?
 With e2e-detection, you only need to select a pre-trained model and the target inference engine. During benchmarking, we will converse the model and test it on the engine automatically. Finally, you will get a report for the model. The report contains (1) benchmark setup (2) testing device (3) model basic info (4) testing data (5) output (6) resource usage.
 
-Notice: Because e2e-detection supports to test pre-trained models of diverse applications, we choose [SenseTime-MMLab](https://github.com/open-mmlab) as the model zoo/factory. If you want to test the customized PyTorch/TensorFlow models, you need to modify the converse script (xxx.py) manually. 
+Notice: Because e2e-detection supports to benchmark PyTorch models of diverse applications, we choose [SenseTime-MMLab](https://github.com/open-mmlab) as the model zoo/factory. If you want to test the customized PyTorch/TensorFlow models, you need to modify the converse script (xxx.py) manually. 
 
 <!-- have tested many pretrained models from a popular object detection library ([SenseTime-MMLab mmdetection](https://github.com/open-mmlab/mmdetection)) on two inference engines ([SenseTime-MMLab OpenPPL](https://github.com/openppl-public/ppl.nn) and [Nvidia Triton](https://github.com/triton-inference-server/server)).  -->
 
