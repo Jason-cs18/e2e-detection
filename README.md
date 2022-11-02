@@ -33,7 +33,10 @@ Notice: Because e2e-detection supports to benchmark PyTorch models of diverse ap
 - [ ] Pose Estimation
 - [ ] Video understanding
 ## e2e-detection vs MMDeploy
-MMDeploy ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdeploy.svg) is an open-source deep learning model deployment toolset developed by SenseTime-MMLab. It helps developers to deploy Pytorch models on diverse inference engines fast (ncnn, onnx, OpenVINO, TensorRT, LibTorch). Unlike it, e2e-detection targets to provide a benchmarking result only for users. If you need to develop the customized inference engine, MMDeploy is a better choice. If you only need to test your models, e2e-detection is more suitable.
+MMDeploy ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdeploy.svg) is an open-source deep learning model deployment toolset developed by SenseTime-MMLab. It helps developers to deploy Pytorch models on diverse inference engines fast (ncnn, onnx, OpenVINO, TensorRT, LibTorch). Unlike it, e2e-detection targets to provide a benchmarking result only for users. 
+- If you need to develop the customized inference engine, MMDeploy is a better choice. 
+- If you only need to test your models, e2e-detection is more suitable.
+
 |Tool|easy-to-use|conversion|optimization|benchmark|customized|
 |:---:|:---:|:---:|:---:|:---:|:---:|
 |MMDeploy||✔️|✔️|✔️|✔️|
