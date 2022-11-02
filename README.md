@@ -22,8 +22,8 @@ Notice: Because e2e-detection supports to benchmark PyTorch models of diverse ap
 ## Inference Engines
 |Inference Engine|Model Conversion|Resource Management|
 |:---:|:---:|:---:|
-|Nvidia Triton ![Github stars](https://img.shields.io/github/stars/triton-inference-server/server.svg)|Hard & a small model zoo|Easy & mannual config|
-|SenseTime-MMLab OpenPPL ![Github stars](https://img.shields.io/github/stars/openppl-public/ppl.nn.svg)|Easy & a large model zoo|Hard & mannual coding|
+|[Nvidia Triton](https://github.com/triton-inference-server/server) ![Github stars](https://img.shields.io/github/stars/triton-inference-server/server.svg)|Hard & a small model zoo|Easy & mannual config|
+|[SenseTime-MMLab OpenPPL](https://github.com/openppl-public/ppl.nn) ![Github stars](https://img.shields.io/github/stars/openppl-public/ppl.nn.svg)|Easy & a large model zoo|Hard & mannual coding|
 ## Applications
 - [ ] Image Classification
 - [x] Object Detection
