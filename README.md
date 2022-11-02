@@ -47,6 +47,7 @@ MMDeploy ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdeploy
     - [ ] generate the report
     - [ ] run the pipeline with a docker
 ## References
-1. [mmdetection: OpenMMLab Detection Toolbox and Benchmark](https://github.com/open-mmlab/mmdetection)
-2. [openppl: A primitive library for neural network](https://github.com/openppl-public/ppl.nn)
-3. [triton: An open source inference serving software that streamlines AI inferencing](https://github.com/triton-inference-server/server)
+1. [MMDetection: OpenMMLab Detection Toolbox and Benchmark](https://github.com/open-mmlab/mmdetection)
+2. [OpenPPL: A primitive library for neural network](https://github.com/openppl-public/ppl.nn)
+3. [Triton: An open source inference serving software that streamlines AI inferencing](https://github.com/triton-inference-server/server)
+4. [MMDeploy: An open-source deep learning model deployment toolset](https://github.com/open-mmlab/mmdeploy)
