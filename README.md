@@ -16,19 +16,9 @@ Notice: Because e2e-detection supports to benchmark PyTorch models of diverse ap
 <!-- ![applications](https://user-images.githubusercontent.com/40779233/188411410-a95bcf39-1d2a-4d41-865c-c725b3d715f0.png) -->
 
 ## Benchmark pipeline
-
+![pipeline](https://github.com/Jason-cs18/e2e-detection/blob/main/out/media/pipeline/pipeline.png)
 ## Contents
-
-## TODO
-1. Nvidia Triton
-2. OpenPPL
-    - [ ] converse PyTorch models
-    - [ ] deploy it on the engine
-    - [ ] benchmark the model
-    - [ ] generate the report
-    - [ ] run the pipeline with a docker
-3. mmdeploy
- 
+ xxx
 ## Inference Engines
 |Inference Engine|Model Conversion|Resource Management|
 |:---:|:---:|:---:|
@@ -43,10 +33,16 @@ Notice: Because e2e-detection supports to benchmark PyTorch models of diverse ap
 - [ ] 3D Object Detection
 - [ ] Pose Estimation
 - [ ] Video understanding
+## TODO
+1. Nvidia Triton
+2. OpenPPL
+    - [ ] converse PyTorch models
+    - [ ] deploy it on the engine
+    - [ ] benchmark the model
+    - [ ] generate the report
+    - [ ] run the pipeline with a docker
+3. mmdeploy
 
-
-
-### Open
 ## References
 1. [mmdetection: OpenMMLab Detection Toolbox and Benchmark](https://github.com/open-mmlab/mmdetection)
 2. [openppl: A primitive library for neural network](https://github.com/openppl-public/ppl.nn)
