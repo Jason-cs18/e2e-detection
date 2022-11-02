@@ -32,6 +32,8 @@ Notice: Because e2e-detection supports to benchmark PyTorch models of diverse ap
 - [ ] 3D Object Detection
 - [ ] Pose Estimation
 - [ ] Video understanding
+## e2e-detection vs MMDeploy
+MMDeploy ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdeploy.svg) is an open-source deep learning model deployment toolset developed by SenseTime-MMLab. It helps developers to test their Pytorch models on diverse inference engines (ncnn, onnx, OpenVINO, TensorRT, LibTorch). Unlike it, e2e-detection targets to automatically provide a benchmarking result for engineers. If you need to develop the customized inference engine, MMDeploy is a better choice. If you only need to test your models, e2e-detection is more suitable. 
 ## TODO
 1. Nvidia Triton
 2. OpenPPL
@@ -40,8 +42,6 @@ Notice: Because e2e-detection supports to benchmark PyTorch models of diverse ap
     - [ ] benchmark the model
     - [ ] generate the report
     - [ ] run the pipeline with a docker
-3. mmdeploy
-
 ## References
 1. [mmdetection: OpenMMLab Detection Toolbox and Benchmark](https://github.com/open-mmlab/mmdetection)
 2. [openppl: A primitive library for neural network](https://github.com/openppl-public/ppl.nn)
