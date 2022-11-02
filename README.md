@@ -16,7 +16,7 @@ Notice: Because e2e-detection supports to benchmark PyTorch models of diverse ap
 <!-- ![applications](https://user-images.githubusercontent.com/40779233/188411410-a95bcf39-1d2a-4d41-865c-c725b3d715f0.png) -->
 
 ## Pipelines
-We provide a basic benchmark pipeline and an advanced video analytics pipeline for users. Details are shown in figures above
+We provide a basic benchmark pipeline and an advanced video analytics pipeline for users. Details can refer to figures above.
 ![pipeline](https://github.com/Jason-cs18/e2e-detection/blob/main/out/media/pipeline/pipeline.png)
 ![pipeline](https://github.com/Jason-cs18/e2e-detection/blob/main/out/media/deployment/deployment.png)
 ## Contents
