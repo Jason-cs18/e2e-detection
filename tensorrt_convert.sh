@@ -18,7 +18,7 @@ elif [[ $MODEL == 'yolov3' ]]; then
     fi
     wget -c https://download.openmmlab.com/mmdetection/v2.0/yolo/yolov3_d53_mstrain-608_273e_coco/yolov3_d53_mstrain-608_273e_coco_20210518_115020-a2c3acb8.pth
     mv yolov3_d53_mstrain-608_273e_coco_20210518_115020-a2c3acb8.pth ./temp/checkpoints/yolov3.pth
-    # convert pytorch to tensorrt
+    # # convert pytorch to tensorrt
     docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp mmdeploy-gpu \
     python -W ignore /root/workspace/mmdeploy/tools/deploy.py \
     /root/workspace/mmdeploy/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py \
@@ -28,11 +28,8 @@ elif [[ $MODEL == 'yolov3' ]]; then
     --work-dir /root/workspace/temp/tensorrt_models/yolov3 \
     --device cuda:0 && \
     # test the speed
-    docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp --privileged mmdeploy-gpu python -W ignore /root/workspace/mmdeploy/tools/profiler.py \ 
-    /root/workspace/mmdeploy/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py \
-    /mmdetection/configs/yolo/yolov3_d53_mstrain-608_273e_coco.py \
-    /root/workspace/temp/testdata/ \
-    --model /root/workspace/temp/tensorrt_models/end2end.engine \
+    docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp --privileged mmdeploy-gpu python -W ignore /root/workspace/mmdeploy/tools/profiler.py /root/workspace/mmdeploy/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py /mmdetection/configs/yolo/yolov3_d53_mstrain-608_273e_coco.py /root/workspace/temp/testdata/ \
+    --model /root/workspace/temp/tensorrt_models/yolov3/end2end.engine \
     --device cuda --shape 320x320 --num-iter 100
     # DETR (mmdetection, eccv-2021)
     # wget -c https://download.openmmlab.com/mmdetection/v2.0/detr/detr_r50_8x2_150e_coco/detr_r50_8x2_150e_coco_20201130_194835-2c4b8974.pth
