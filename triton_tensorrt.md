@@ -15,7 +15,7 @@ docker build -t mmdeploy-cpu --network host mmdeploy/cpu
 # (optional) run an interactive terminal in mmdeploy
 docker run -it --network host --gpus all -v /home/jason/Toolbox/e2e-detection/temp:/root/workspace/temp mmdeploy-cpu
 ```
-You can check your image via the command
+- You can check your image via the command
 ```
 docker image ls
 ```
@@ -26,10 +26,12 @@ docker image ls
 # faster_rcnn (2015), yolov3 (2018), detr (2020), swin_transformer (2021), efficientdet_dx (2020)
 bash tensorrt_convert.sh yolov3
 ```
-When you complete this step, you will get a new end2end.engine in ./temp/tensorrt_models/yolov3/ and the speed profiling result with batch-size=1.
+- When you complete this step, you will get a new end2end.engine in ./temp/tensorrt_models/yolov3/ and the speed profiling result with batch-size=1.
 
 ![tensorrt_gpu](https://github.com/efficient-edge/e2e-detection/blob/main/media/tensorrt_yolov3_model.png)
 ![tensorrt_gpu](https://github.com/efficient-edge/e2e-detection/blob/main/media/tensorrt_yolov3_speed.png)
+
+> Notice: Because official efficientdet is implemented by tensorflow and non-official implementations have multiple errors in the deployment stage, we choose efficientdet-tensorflow as our source model.
 ### Inference on images with TensorRT models
 ### Deploy TensorRT models on Nvidia Triton
 ### Test your video via a Triton client application
