@@ -2,6 +2,9 @@ MODEL=$1
 DOCKER_TEMP=/home/jason/Toolbox/e2e-detection/temp
 YOLOV3_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/yolov3
 FASTERCNN_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/faster_rcnn
+DETR_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/detr
+YOLOX_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/yolox
+SWIN_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/swin_transformer
 
 if [[ $MODEL == 'fasterrcnn' ]]; then
     # Faster-RCNN (mmdetection, nips-2015)
@@ -47,21 +50,71 @@ elif [[ $MODEL == 'yolov3' ]]; then
     docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp --privileged mmdeploy-gpu python -W ignore /root/workspace/mmdeploy/tools/profiler.py /root/workspace/mmdeploy/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py /mmdetection/configs/yolo/yolov3_d53_mstrain-608_273e_coco.py /root/workspace/temp/testdata/ \
     --model /root/workspace/temp/tensorrt_models/yolov3/end2end.engine \
     --device cuda --shape 320x320 --num-iter 100
-    # DETR (mmdetection, eccv-2021)
-    # wget -c https://download.openmmlab.com/mmdetection/v2.0/detr/detr_r50_8x2_150e_coco/detr_r50_8x2_150e_coco_20201130_194835-2c4b8974.pth
-    # mv detr_r50_8x2_150e_coco_20201130_194835-2c4b8974.pth ./openppl/temp/checkpoints/detr.pth
-    # docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/mmdetection/temp mmdetection python -W ignore ./tools/deployment/pytorch2onnx.py ./configs/detr/detr_r50_8x2_150e_coco.py \
-    # ./temp/checkpoints/detr.pth --output-file ./temp/checkpoints/detr.onnx --simplify --dynamic-export
-    # docker run -ti --network host -v $DOCKER_TEMP:/ppl.nn/temp -e PYTHONPATH=$PYTHONPATH:/ppl.nn/pplnn-build/install/lib openppl python3 -W ignore ./temp/scripts/inference.py -i ./temp/testdata/0000008_01999_d_0000040.jpg -o ./temp/detr_output.jpg -m ./temp/checkpoints/detr.onnx
-elif [[ $MODEL == 'yolox' ]]; then
-    # YOLOX (mmdetection, arxiv-2021)
-    wget -c https://download.openmmlab.com/mmdetection/v2.0/yolox/yolox_x_8x8_300e_coco/yolox_x_8x8_300e_coco_20211126_140254-1ef88d67.pth
-    mv yolox_x_8x8_300e_coco_20211126_140254-1ef88d67.pth ./openppl/temp/checkpoints/yolox.pth
-    docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/mmdetection/temp mmdetection python -W ignore ./tools/deployment/pytorch2onnx.py ./configs/yolox/yolox_x_8x8_300e_coco.py \
-    ./temp/checkpoints/yolox.pth --output-file ./temp/checkpoints/yolox.onnx --simplify --dynamic-export
-    docker run -ti --network host -v $DOCKER_TEMP:/ppl.nn/temp -e PYTHONPATH=$PYTHONPATH:/ppl.nn/pplnn-build/install/lib openppl python3 -W ignore ./temp/scripts/inference.py -i ./temp/testdata/0000008_01999_d_0000040.jpg -o ./temp/yolox_output.jpg -m ./temp/checkpoints/yolox.onnx
-# elif [[ $MODEL == 'swin_transformer' ]]; then
+elif [[ $MODEL == 'detr' ]]; then
+    # DETR (mmdetection, eccv-2020)
+    if [ -d "$DETR_PATH" ]; then
+        echo "The detr directory is existing!"
+    else
+        mkdir "$DETR_PATH"
+    fi
+    wget -c https://download.openmmlab.com/mmdetection/v2.0/detr/detr_r50_8x2_150e_coco/detr_r50_8x2_150e_coco_20201130_194835-2c4b8974.pth
+    mv detr_r50_8x2_150e_coco_20201130_194835-2c4b8974.pth ./temp/checkpoints/detr.pth
+    # # convert pytorch to tensorrt
+    docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp mmdeploy-gpu \
+    python -W ignore /root/workspace/mmdeploy/tools/deploy.py \
+    /root/workspace/mmdeploy/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py \
+    /mmdetection/configs/detr/detr_r50_8x2_150e_coco.py \
+    /root/workspace/temp/checkpoints/detr.pth \
+    /root/workspace/temp/testdata/0000008_01999_d_0000040.jpg \
+    --work-dir /root/workspace/temp/tensorrt_models/detr \
+    --device cuda:0 && \
+    # test the speed
+    docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp --privileged mmdeploy-gpu python -W ignore /root/workspace/mmdeploy/tools/profiler.py /root/workspace/mmdeploy/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py /mmdetection/configs/detr/detr_r50_8x2_150e_coco.py /root/workspace/temp/testdata/ \
+    --model /root/workspace/temp/tensorrt_models/detr/end2end.engine \
+    --device cuda --shape 320x320 --num-iter 100
+# elif [[ $MODEL == 'yolox' ]]; then
+#     # YOLOX (mmdetection, arxiv-2021)
+#     if [ -d "$YOLOX_PATH" ]; then
+#         echo "The yolox directory is existing!"
+#     else
+#         mkdir "$YOLOX_PATH"
+#     fi
+#     wget -c https://download.openmmlab.com/mmdetection/v2.0/yolox/yolox_s_8x8_300e_coco/yolox_s_8x8_300e_coco_20211121_095711-4592a793.pth
+#     mv yolox_s_8x8_300e_coco_20211121_095711-4592a793.pth ./temp/checkpoints/yolox.pth
+#     # # convert pytorch to tensorrt
+#     docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp mmdeploy-gpu \
+#     python -W ignore /root/workspace/mmdeploy/tools/deploy.py \
+#     /root/workspace/mmdeploy/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py \
+#     /mmdetection/configs/yolox/yolox_s_8x8_300e_coco.py \
+#     /root/workspace/temp/checkpoints/yolox.pth \
+#     /root/workspace/temp/testdata/0000008_01999_d_0000040.jpg \
+#     --work-dir /root/workspace/temp/tensorrt_models/yolox \
+#     --device cuda:0 && \
+#     # test the speed
+#     docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp --privileged mmdeploy-gpu python -W ignore /root/workspace/mmdeploy/tools/profiler.py /root/workspace/mmdeploy/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py /mmdetection/configs/yolox/yolox_s_8x8_300e_coco.py /root/workspace/temp/testdata/ \
+#     --model /root/workspace/temp/tensorrt_models/yolox/end2end.engine \
+#     --device cuda --shape 320x320 --num-iter 100
+elif [[ $MODEL == 'swin_transformer' ]]; then
     # Swin-Transformer (mmdetection, iccv-2021)
-    # echo 'hello! swin-transformer'
+    if [ -d "$SWIN_PATH" ]; then
+        echo "The swin directory is existing!"
+    else
+        mkdir "$SWIN_PATH"
+    fi
+    wget -c https://download.openmmlab.com/mmdetection/v2.0/swin/mask_rcnn_swin-t-p4-w7_fpn_fp16_ms-crop-3x_coco/mask_rcnn_swin-t-p4-w7_fpn_fp16_ms-crop-3x_coco_20210908_165006-90a4008c.pth
+    mv mask_rcnn_swin-t-p4-w7_fpn_fp16_ms-crop-3x_coco_20210908_165006-90a4008c.pth ./temp/checkpoints/mask_swin.pth
+    # # convert pytorch to tensorrt
+    docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp mmdeploy-gpu \
+    python -W ignore /root/workspace/mmdeploy/tools/deploy.py \
+    /root/workspace/mmdeploy/configs/mmdet/instance-seg/instance-seg_tensorrt_dynamic-320x320-1344x1344.py \
+    /mmdetection/configs/swin/mask_rcnn_swin-t-p4-w7_fpn_fp16_ms-crop-3x_coco.py \
+    /root/workspace/temp/checkpoints/mask_swin.pth \
+    /root/workspace/temp/testdata/0000008_01999_d_0000040.jpg \
+    --work-dir /root/workspace/temp/tensorrt_models/swin_transformer \
+    --device cuda:0 && \
+    # test the speed
+    docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp --privileged mmdeploy-gpu python -W ignore /root/workspace/mmdeploy/tools/profiler.py /root/workspace/mmdeploy/configs/mmdet/instance-seg/instance-seg_tensorrt_dynamic-320x320-1344x1344.py /mmdetection/configs/swin/mask_rcnn_swin-t-p4-w7_fpn_fp16_ms-crop-3x_coco.py /root/workspace/temp/testdata/ \
+    --model /root/workspace/temp/tensorrt_models/swin_transformer/end2end.engine \
+    --device cuda --shape 320x320 --num-iter 100
 fi
 

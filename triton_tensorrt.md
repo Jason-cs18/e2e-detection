@@ -23,7 +23,7 @@ docker image ls
 
 2. Converse PyTorch models to TensorRT (~ 3 minutes)
 ```
-# faster_rcnn, yolov3, detr, yolox, swin_transformer, efficientdet_dx
+# faster_rcnn (2015), yolov3 (2018), detr (2020), swin_transformer (2021), efficientdet_dx (2020)
 bash tensorrt_convert.sh yolov3
 ```
 When you complete this step, you will get a new end2end.engine in ./temp/tensorrt_models/yolov3/ and the speed profiling result with batch-size=1.
