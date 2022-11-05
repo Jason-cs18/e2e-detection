@@ -3,7 +3,7 @@
 # https://docs.nvidia.com/deeplearning/tensorrt/container-release-notes/rel-22-10.html#rel-22-10
 FROM nvcr.io/nvidia/tensorrt:22.08-py3
 
-ARG CUDA=11.3
+ARG CUDA=11.6
 # ARG CUDA=10.2
 ARG PYTHON_VERSION=3.8
 ARG TORCH_VERSION=1.10.0

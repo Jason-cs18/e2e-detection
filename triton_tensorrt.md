@@ -1,5 +1,8 @@
 # Test Pytorch Models on Nvidia Triton server using TensorRT inference engine
-In this page, we will show you a step-by-step tutorial to test PyTorch models on Nvidia Triton with Nvidia TensorRT engine (CPU/GPU). 
+In this page, we will show you a step-by-step tutorial to test PyTorch models on Nvidia Triton with Nvidia TensorRT engine (CPU/GPU).
+## Pytorch model zoo
+- [x] [mmdetection](https://github.com/open-mmlab/mmdetection)
+- [ ] [mmyolo](https://github.com/open-mmlab/mmyolo)
 ## Contents
 1. [Converse Pytorch Models to TensorRT](#converse-pytorch-models-to-tensorrt) 
 2. [Inference on images with TensorRT models](#inference-on-images-with-tensorrt-models)
@@ -31,7 +34,13 @@ bash tensorrt_convert.sh yolov3
 ![tensorrt_gpu](https://github.com/efficient-edge/e2e-detection/blob/main/media/tensorrt_yolov3_model.png)
 ![tensorrt_gpu](https://github.com/efficient-edge/e2e-detection/blob/main/media/tensorrt_yolov3_speed.png)
 
-> Notice: Because official efficientdet is implemented by tensorflow and non-official implementations have multiple errors in the deployment stage, we choose efficientdet-tensorflow as our source model.
+> Notice: Because official efficientdet is implemented by tensorflow and non-official implementations have multiple errors in the deployment stage, we choose efficientdet-tensorflow as our source model. More details can be found in [tensorflow-triton-tutorial]()
 ### Inference on images with TensorRT models
+For Faster-RCNN, YOLOv3, DETR, Swin-Transformer, please type
+```
+docker run -it --gpus all --network host -v /home/jason/Toolbox/e2e-detection/temp:/root/workspace/temp mmdeploy-gpu python -W ignore temp/scripts/tensorrt_inference.py faster_rcnn/yolov3/detr/swin
+```
+After the execution, you will get a sample video with the detected bboxes in /temp/outputs/xxx-movie.mp4.
+![tensorrt_gpu](https://github.com/efficient-edge/e2e-detection/blob/main/media/pytorch_video.png)
 ### Deploy TensorRT models on Nvidia Triton
 ### Test your video via a Triton client application

@@ -5,6 +5,7 @@ FASTERCNN_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/faster_rcn
 DETR_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/detr
 YOLOX_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/yolox
 SWIN_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/swin_transformer
+EFFICIENTDET_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/efficientdet
 
 if [[ $MODEL == 'fasterrcnn' ]]; then
     # Faster-RCNN (mmdetection, nips-2015)
@@ -94,7 +95,7 @@ elif [[ $MODEL == 'detr' ]]; then
 #     docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp --privileged mmdeploy-gpu python -W ignore /root/workspace/mmdeploy/tools/profiler.py /root/workspace/mmdeploy/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py /mmdetection/configs/yolox/yolox_s_8x8_300e_coco.py /root/workspace/temp/testdata/ \
 #     --model /root/workspace/temp/tensorrt_models/yolox/end2end.engine \
 #     --device cuda --shape 320x320 --num-iter 100
-elif [[ $MODEL == 'swin_transformer' ]]; then
+elif [[ $MODEL == 'swin' ]]; then
     # Swin-Transformer (mmdetection, iccv-2021)
     if [ -d "$SWIN_PATH" ]; then
         echo "The swin directory is existing!"

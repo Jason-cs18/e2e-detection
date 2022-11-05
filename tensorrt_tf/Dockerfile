@@ -1,118 +1,128 @@
-# Copyright (c) 2021, NVIDIA CORPORATION. All rights reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
-ARG CUDA_VERSION=11.4.0
-ARG CUDNN_VERSION=8
-ARG OS_VERSION=18.04
+# TensorRT 8.4 and new versions work
+# https://docs.nvidia.com/deeplearning/tensorrt/container-release-notes/rel-22-10.html#rel-22-10
+FROM nvcr.io/nvidia/tensorrt:22.08-py3
 
-# 从nvidia 官方镜像库拉取基础镜像
-FROM nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu${OS_VERSION}
-LABEL maintainer="nietaiyang"
+ARG CUDA=11.3
+# ARG CUDA=10.2
+ARG PYTHON_VERSION=3.8
+ARG TORCH_VERSION=1.10.0
+ARG TORCHVISION_VERSION=0.11.0
+ARG ONNXRUNTIME_VERSION=1.8.1
+ARG MMCV_VERSION=1.5.3
+ARG PPLCV_VERSION=0.7.0
+ENV FORCE_CUDA="1"
 
-# ENV TRT_VERSION 7.2.3.4
-# ENV TRT_VERSION 7.0.0.11
-ENV TRT_VERSION 8.2.1.8
-SHELL ["/bin/bash", "-c"]
+ENV DEBIAN_FRONTEND=noninteractive
 
+### change the system source for installing libs
+ARG USE_SRC_INSIDE=false
+RUN if [ ${USE_SRC_INSIDE} == true ] ; \
+    then \
+        sed -i s/archive.ubuntu.com/mirrors.aliyun.com/g /etc/apt/sources.list ; \
+        sed -i s/security.ubuntu.com/mirrors.aliyun.com/g /etc/apt/sources.list ; \
+        echo "Use aliyun source for installing libs" ; \
+    else \
+        echo "Keep the download source unchanged" ; \
+    fi
 
-# 将 apt 的升级源切换成 阿里云
-RUN  sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list && \
-            apt-get clean && \
-            rm /etc/apt/sources.list.d/*
+### update apt and install libs
+RUN apt-get update &&\
+    apt-get install -y vim libsm6 libxext6 libxrender-dev libgl1-mesa-glx git wget libssl-dev libopencv-dev libspdlog-dev --no-install-recommends &&\
+    rm -rf /var/lib/apt/lists/*
 
-# 安装必要的库
-RUN apt-get update && apt-get install -y software-properties-common
-RUN add-apt-repository ppa:ubuntu-toolchain-r/test
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libcurl4-openssl-dev \
-    wget \
-    vim \
-    zlib1g-dev \
-    git \
-    pkg-config \
-    sudo \
-    ssh \
-    libssl-dev \
-    pbzip2 \
-    pv \
-    bzip2 \
-    unzip \
-    devscripts \
-    lintian \
-    fakeroot \
-    dh-make \
-    build-essential \
-    libgl1-mesa-glx
+RUN curl -fsSL -v -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
+    chmod +x ~/miniconda.sh && \
+    ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda install -y python=${PYTHON_VERSION} conda-build pyyaml numpy ipython cython typing typing_extensions mkl mkl-include ninja && \
+    /opt/conda/bin/conda clean -ya
 
+### pytorch
+# RUN /opt/conda/bin/conda install pytorch==${TORCH_VERSION} torchvision==${TORCHVISION_VERSION} cudatoolkit=${CUDA} -c pytorch
+# ENV PATH /opt/conda/bin:$PATH
 
-# 安装 python3 环境
-RUN apt-get install -y --no-install-recommends \
-    python3 \
-    python3-pip \
-    python3-dev \
-    python3-wheel &&\
-    cd /usr/local/bin &&\
-    ln -s /usr/bin/python3 python &&\
-    ln -s /usr/bin/pip3 pip;
+### install mmcv-full
+# RUN /opt/conda/bin/pip install mmcv-full==${MMCV_VERSION} -f https://download.openmmlab.com/mmcv/dist/cu${CUDA//./}/torch${TORCH_VERSION}/index.html
 
-# 安装 TensorRT
-RUN cd /tmp && sudo apt-get update
+# WORKDIR /root/workspace/
+# ### Install MMDetection
+# RUN conda clean --all
+# RUN git clone https://github.com/open-mmlab/mmdetection.git /mmdetection
+# WORKDIR /mmdetection
+# ENV FORCE_CUDA="1"
+# RUN pip install --no-cache-dir -r requirements/build.txt
+# RUN pip install --no-cache-dir -e .
+# RUN pip install onnx
+# RUN pip install onnxsim
+# RUN pip install onnxruntime
 
-RUN version="8.2.1-1+cuda11.4" && \
-    sudo apt-get install libnvinfer8=${version} libnvonnxparsers8=${version} libnvparsers8=${version} libnvinfer-plugin8=${version} libnvinfer-dev=${version} libnvonnxparsers-dev=${version} libnvparsers-dev=${version} libnvinfer-plugin-dev=${version} python3-libnvinfer=${version} &&\
-    sudo apt-mark hold libnvinfer8 libnvonnxparsers8 libnvparsers8 libnvinfer-plugin8 libnvinfer-dev libnvonnxparsers-dev libnvparsers-dev libnvinfer-plugin-dev python3-libnvinfer
+WORKDIR /root/workspace
+### get onnxruntime
+RUN wget https://github.com/microsoft/onnxruntime/releases/download/v${ONNXRUNTIME_VERSION}/onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}.tgz \
+    && tar -zxvf onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}.tgz &&\
+    pip install onnxruntime-gpu==${ONNXRUNTIME_VERSION}
 
-# 升级 pip 并切换成国内豆瓣源
-RUN python3 -m pip install -i https://pypi.douban.com/simple/ --upgrade pip
-RUN pip3 config set global.index-url https://pypi.douban.com/simple/
-RUN pip3 install setuptools>=41.0.0
+### cp trt from pip to conda
+RUN cp -r /usr/local/lib/python${PYTHON_VERSION}/dist-packages/tensorrt* /opt/conda/lib/python${PYTHON_VERSION}/site-packages/
 
-# 升级 Cmake（可选）
-RUN cd /tmp && \
-    wget https://github.com/Kitware/CMake/releases/download/v3.14.4/cmake-3.14.4-Linux-x86_64.sh && \
-    chmod +x cmake-3.14.4-Linux-x86_64.sh && \
-    ./cmake-3.14.4-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir --skip-license && \
-    rm ./cmake-3.14.4-Linux-x86_64.sh
+### install tensorflow
+RUN /opt/conda/bin/conda install tensorflow-gpu
+ENV PATH /opt/conda/bin:$PATH
 
-ARG DEBIAN_FRONTEND=noninteractive
+WORKDIR /root/workspace
+### install tensorrt requirements
+RUN git clone -b master https://github.com/nvidia/TensorRT TensorRT
+RUN cd TensorRT/samples/python/efficientdet && pip install -r requirements.txt
+RUN pip install onnx-graphsurgeon --index-url https://pypi.ngc.nvidia.com
+RUN cd /root/workspace
+RUN git clone https://github.com/google/automl
+RUN cd automl && git checkout 0b0ba5e
+RUN pip install matplotlib
 
-RUN apt update
-RUN apt install -y git libsndfile1-dev tesseract-ocr espeak-ng python3 python3-pip ffmpeg
-RUN python3 -m pip install --no-cache-dir --upgrade pip
+### install mmdeploy
+# ENV ONNXRUNTIME_DIR=/root/workspace/onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}
+# ENV TENSORRT_DIR=/workspace/tensorrt
+# ARG VERSION
+# RUN git clone https://github.com/open-mmlab/mmdeploy &&\
+#     cd mmdeploy &&\
+#     if [ -z ${VERSION} ] ; then echo "No MMDeploy version passed in, building on master" ; else git checkout tags/v${VERSION} -b tag_v${VERSION} ; fi &&\
+#     git submodule update --init --recursive &&\
+#     mkdir -p build &&\
+#     cd build &&\
+#     cmake -DMMDEPLOY_TARGET_BACKENDS="ort;trt" .. &&\
+#     make -j$(nproc) &&\
+#     cd .. &&\
+#     pip install -e .
+# ### tensorrt backend needs
+# RUN pip install pycuda
+# RUN pip install prettytable
 
-ARG REF=main
-RUN git clone https://github.com/huggingface/transformers && cd transformers && git checkout $REF
-RUN python3 -m pip install --no-cache-dir -e ./transformers[dev-tensorflow,testing]
+### build sdk
+# RUN git clone https://github.com/openppl-public/ppl.cv.git &&\
+#     cd ppl.cv &&\
+#     git checkout tags/v${PPLCV_VERSION} -b v${PPLCV_VERSION} &&\
+#     ./build.sh cuda
 
-# If set to nothing, will install the latest version
-ARG TENSORFLOW=''
+# ENV BACKUP_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+# ENV LD_LIBRARY_PATH=/usr/local/cuda/compat/lib.real/:$LD_LIBRARY_PATH
 
-RUN [ ${#TENSORFLOW} -gt 0 ] && VERSION='tensorflow=='$TENSORFLOW'.*' ||  VERSION='tensorflow'; python3 -m pip install --no-cache-dir -U $VERSION
-RUN python3 -m pip uninstall -y torch flax
-RUN python3 -m pip install -U "itsdangerous<2.1.0"
+# RUN cd /root/workspace/mmdeploy &&\
+#     rm -rf build/CM* build/cmake-install.cmake build/Makefile build/csrc &&\
+#     mkdir -p build && cd build &&\
+#     cmake .. \
+#         -DMMDEPLOY_BUILD_SDK=ON \
+#         -DMMDEPLOY_BUILD_EXAMPLES=ON \
+#         -DCMAKE_CXX_COMPILER=g++ \
+#         -Dpplcv_DIR=/root/workspace/ppl.cv/cuda-build/install/lib/cmake/ppl \
+#         -DTENSORRT_DIR=${TENSORRT_DIR} \
+#         -DONNXRUNTIME_DIR=${ONNXRUNTIME_DIR} \
+#         -DMMDEPLOY_BUILD_SDK_PYTHON_API=ON \
+#         -DMMDEPLOY_TARGET_DEVICES="cuda;cpu" \
+#         -DMMDEPLOY_TARGET_BACKENDS="ort;trt" \
+#         -DMMDEPLOY_CODEBASES=all &&\
+#     make -j$(nproc) && make install &&\
+#     export SPDLOG_LEVEL=warn &&\
+#     if [ -z ${VERSION} ] ; then echo "Built MMDeploy master for GPU devices successfully!" ; else echo "Built MMDeploy version v${VERSION} for GPU devices successfully!" ; fi
 
-# When installing in editable mode, `transformers` is not recognized as a package.
-# this line must be added in order for python to be aware of transformers.
-RUN cd transformers && python3 setup.py develop
-
-# 设置环境变量和工作路径
-ENV TRT_LIBPATH /usr/lib/x86_64-linux-gnu
-ENV TRT_OSSPATH /workspace/TensorRT
-ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${TRT_OSSPATH}/build/out:${TRT_LIBPATH}"
-WORKDIR /workspace
-
-# 设置语言环境为中文，防止 print 中文报错
-# ENV LANG C.UTF-8
-
-RUN ["/bin/bash"]
+# ENV LD_LIBRARY_PATH="/root/workspace/mmdeploy/build/lib:${BACKUP_LD_LIBRARY_PATH}"

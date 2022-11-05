@@ -19,11 +19,10 @@ Notice: Because e2e-detection supports benchmark PyTorch models of diverse appli
 We provide a basic benchmark pipeline and an advanced video analytics pipeline for users. Details can refer to the figures above.
 ![pipeline](https://github.com/Jason-cs18/e2e-detection/blob/main/out/media/pipeline/pipeline.png)
 ![pipeline](https://github.com/Jason-cs18/e2e-detection/blob/main/out/media/deployment/deployment.png)
-## Contents
- xxx
+## Tutorials
+- [Test Pytorch Models on Nvidia Triton server using TensorRT inference engine](): Faster RCNN, YOLOv3, DETR, Swin-Transformer.
+- [Test TensorFlow Models on Nvidia Triton server using TensorRT inference engine](): EfficientDet-Dx.
 
-## Step-by-step Tutorials
-1. Converse Pytorch Models to TensorRT ()
 ## Inference Engines
 |Inference Engine|Model Conversion|Resource Management|
 |:---:|:---:|:---:|
