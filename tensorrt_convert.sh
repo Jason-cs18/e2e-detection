@@ -1,14 +1,30 @@
 MODEL=$1
 DOCKER_TEMP=/home/jason/Toolbox/e2e-detection/temp
 YOLOV3_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/yolov3
+FASTERCNN_PATH=/home/jason/Toolbox/e2e-detection/temp/tensorrt_models/faster_rcnn
 
 if [[ $MODEL == 'fasterrcnn' ]]; then
     # Faster-RCNN (mmdetection, nips-2015)
-    wget -c https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth
-    mv faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth ./openppl/temp/checkpoints/faster_rcnn.pth
-    docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/mmdetection/temp mmdetection python -W ignore ./tools/deployment/pytorch2onnx.py ./configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py \
-    ./temp/checkpoints/faster_rcnn.pth --output-file ./temp/checkpoints/faster_rcnn.onnx --simplify --dynamic-export
-    docker run -ti --network host -v $DOCKER_TEMP:/ppl.nn/temp -e PYTHONPATH=$PYTHONPATH:/ppl.nn/pplnn-build/install/lib openppl python3 -W ignore ./temp/scripts/inference.py -i ./temp/testdata/0000008_01999_d_0000040.jpg -o ./temp/faster_rcnn_output.jpg -m ./temp/checkpoints/faster_rcnn.onnx
+    if [ -d "$FASTERCNN_PATH" ]; then
+        echo "The fasterrcnn directory is existing!"
+    else
+        mkdir "$FASTERCNN_PATH"
+    fi
+    wget -c https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_mstrain_3x_coco/faster_rcnn_r50_fpn_mstrain_3x_coco_20210524_110822-e10bd31c.pth
+    mv faster_rcnn_r50_fpn_mstrain_3x_coco_20210524_110822-e10bd31c.pth ./temp/checkpoints/faster_rcnn.pth
+    # # convert pytorch to tensorrt
+    docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp mmdeploy-gpu \
+    python -W ignore /root/workspace/mmdeploy/tools/deploy.py \
+    /root/workspace/mmdeploy/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py \
+    /mmdetection/configs/faster_rcnn/faster_rcnn_r50_fpn_mstrain_3x_coco.py \
+    /root/workspace/temp/checkpoints/faster_rcnn.pth \
+    /root/workspace/temp/testdata/0000008_01999_d_0000040.jpg \
+    --work-dir /root/workspace/temp/tensorrt_models/faster_rcnn \
+    --device cuda:0 && \
+    # test the speed
+    docker run --gpus all -ti --network=host -v $DOCKER_TEMP:/root/workspace/temp --privileged mmdeploy-gpu python -W ignore /root/workspace/mmdeploy/tools/profiler.py /root/workspace/mmdeploy/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py /mmdetection/configs/faster_rcnn/faster_rcnn_r50_fpn_mstrain_3x_coco.py /root/workspace/temp/testdata/ \
+    --model /root/workspace/temp/tensorrt_models/faster_rcnn/end2end.engine \
+    --device cuda --shape 320x320 --num-iter 100
 elif [[ $MODEL == 'yolov3' ]]; then
     # YOLOv3 (mmdetection, arxiv-2018)
     if [ -d "$YOLOV3_PATH" ]; then

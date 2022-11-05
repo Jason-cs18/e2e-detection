@@ -1,8 +1,8 @@
 # Test Pytorch Models on Nvidia Triton server using TensorRT inference engine
 In this page, we will show you a step-by-step tutorial to test PyTorch models on Nvidia Triton with Nvidia TensorRT engine (CPU/GPU). 
-## Step-by-step Tutorial
+## Contents
 1. [Converse Pytorch Models to TensorRT](#converse-pytorch-models-to-tensorrt) 
-2. [Test TensorRT models](#test-tensorrt-models)
+2. [Inference on images with TensorRT models](#inference-on-images-with-tensorrt-models)
 3. [Deploy TensorRT models on Nvidia Triton](#deploy-tensorrt-models-on-nvidia-triton)
 4. [Test your video via a Triton client application](#test-your-video-via-a-triton-client-application)
 ### Converse Pytorch Models to TensorRT
@@ -30,6 +30,6 @@ When you complete this step, you will get a new end2end.engine in ./temp/tensorr
 
 ![tensorrt_gpu](https://github.com/efficient-edge/e2e-detection/blob/main/media/tensorrt_yolov3_model.png)
 ![tensorrt_gpu](https://github.com/efficient-edge/e2e-detection/blob/main/media/tensorrt_yolov3_speed.png)
-### Test TensorRT models
+### Inference on images with TensorRT models
 ### Deploy TensorRT models on Nvidia Triton
 ### Test your video via a Triton client application
