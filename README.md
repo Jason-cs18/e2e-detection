@@ -61,11 +61,11 @@ MMDeploy ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdeploy
    - [ ] run the pipeline with a docker
 2. Pytorch
     - [x] converse PyTorch models
-    - [x] deploy it on the engine
+    - [x] test it with the inference engine
     - [ ] deploy the optimized model on Triton
 3. TensorFlow
     - [ ] converse PyTorch models
-    - [ ] deploy it on the engine
+    - [ ] test it with the inference engine
     - [ ] deploy the optimized model on Triton
 ## References
 1. [MMDetection: OpenMMLab Detection Toolbox and Benchmark](https://github.com/open-mmlab/mmdetection)
