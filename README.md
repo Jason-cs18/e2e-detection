@@ -62,13 +62,11 @@ MMDeploy ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdeploy
 2. Pytorch
     - [x] converse PyTorch models
     - [x] deploy it on the engine
-    - [ ] benchmark the model on diverse devices
-    - [ ] run the pipeline with a docker
+    - [ ] deploy the optimized model on Triton
 3. TensorFlow
     - [ ] converse PyTorch models
     - [ ] deploy it on the engine
-    - [ ] benchmark the model on diverse devices
-    - [ ] run the pipeline with a docker
+    - [ ] deploy the optimized model on Triton
 ## References
 1. [MMDetection: OpenMMLab Detection Toolbox and Benchmark](https://github.com/open-mmlab/mmdetection)
 2. [OpenPPL: A primitive library for neural network](https://github.com/openppl-public/ppl.nn)
