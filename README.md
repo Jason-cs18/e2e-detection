@@ -17,7 +17,7 @@ Let's introduce the three-stage deployment pipeline. At first, deep learning sci
 
 > As a deep learning engineer, I highly recommend you use pre-trained models from [SenseTime-MMLab](https://github.com/open-mmlab) because the team is extremely active to develop advanced deep learning models for diverse tasks in video analytics (_i.e.,_ image classification ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmclassification.svg), object detection ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdetection.svg), semantic segmentation ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmsegmentation.svg), text detection ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmocr.svg), 3d object detection ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdetection3d.svg), pose estimation ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmpose.svg) and video understanding based on action ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmaction2.svg)).
 <!-- ![applications](https://user-images.githubusercontent.com/40779233/188411410-a95bcf39-1d2a-4d41-865c-c725b3d715f0.png) -->
-![pipeline](https://github.com/efficient-edge/e2e-detection/blob/main/media/case_execution.png)
+<!-- ![pipeline](https://github.com/efficient-edge/e2e-detection/blob/main/media/case_execution.png) -->
 <!-- ## Pipelines
 We provide a basic benchmark pipeline and an advanced video analytics pipeline for users. Details can refer to the figures above.
 ![pipeline](https://github.com/Jason-cs18/e2e-detection/blob/main/out/media/pipeline/pipeline.png)
