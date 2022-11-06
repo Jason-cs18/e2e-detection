@@ -1,6 +1,6 @@
 # Test TensorFlow models on Triton using TensorRT inference engine
 As same as PyTorch models, we convert TensorFlow models to TensorRT formats and deploy them to Triton server. Because some popular models are trained with TensorFlow and their PyTorch versions are not ready to deployment, we create this tutorial to guide you test TensorFlow models on Triton step by step.
-> Although we focus on efficientdet and their variants, you can modify the scripts to adapt on any TensorFlow models.
+> Although we focus on efficientdet and its variants, you can modify the scripts to adapt on any TensorFlow models.
 ## TensorFlow model zoo
 - [x] [Automl (efficientdet)](https://github.com/google/automl/tree/master/efficientdet)
 ## Contents
