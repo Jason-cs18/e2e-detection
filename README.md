@@ -9,7 +9,7 @@ Let's introduce the three-stage deployment pipeline. At first, deep learning sci
 - It is easy to meet dependency errors during deployment.
 
 ## What can we do?
-![pipeline](https://github.com/efficient-edge/e2e-detection/blob/main/media/e2e_detection.png)
+<!-- ![pipeline](https://github.com/efficient-edge/e2e-detection/blob/main/media/e2e_detection.png) -->
 - A Dockerfile to build all testing environments automatically.
 - Testing your Pytorch/TensorFlow models in fewer lines of code.
 - A use case of real-world deployment.
