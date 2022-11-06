@@ -1,5 +1,7 @@
 # Test Pytorch Models on Nvidia Triton server using TensorRT inference engine
 In this page, we will show you a step-by-step tutorial to test PyTorch models on Nvidia Triton with Nvidia TensorRT engine (CPU/GPU).
+
+![pipeline](https://github.com/efficient-edge/e2e-detection/blob/main/media/e2e_detection.png)
 ## Pytorch model zoo
 - [x] [mmdetection](https://github.com/open-mmlab/mmdetection)
 - [ ] [mmyolo](https://github.com/open-mmlab/mmyolo)

@@ -25,6 +25,7 @@ We provide a basic benchmark pipeline and an advanced video analytics pipeline f
 ## Tutorials
 - [Test Pytorch Models on Nvidia Triton server using TensorRT inference engine](https://github.com/efficient-edge/e2e-detection/blob/main/triton_pytorch.md): Faster RCNN, YOLOv3, DETR, Swin-Transformer.
 - [Test TensorFlow Models on Nvidia Triton server using TensorRT inference engine](https://github.com/efficient-edge/e2e-detection/blob/main/triton_tensorflow.md): EfficientDet-Dx.
+- [A use case of Triton inference server](https://github.com/efficient-edge/e2e-detection/blob/main/use_case.md)
 
 ## Inference Engines
 
