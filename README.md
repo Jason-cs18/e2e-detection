@@ -1,7 +1,7 @@
 # e2e-detection
 e2e-detection is a toolkit to help deep learning engineers test their PyTorch/TensorFlow models on NVIDIA Triton inference server using different inference engines.
 
-Let's introduce the three-stage deployment pipeline. At first, deep learning scientists train their models through deep learning frameworks (TensorFlow/Pytorch). Second, trained models will be converted to inference-optimized formats (ONNX/TensorRT/OpenPPL/NCNN/MNN). Finally, the converted models will be deployed to Nvidia Triton server. We usually call Triton inference server and other inference engines because Triton is responsible for managing resources for x models using different engines. In Triton, inference engines also call backends.
+Let's introduce the three-stage deployment pipeline. At first, deep learning scientists train their models through deep learning frameworks (TensorFlow/Pytorch). Second, trained models will be converted to inference-optimized formats (ONNX/TensorRT/OpenPPL/NCNN/MNN). Finally, the converted models will be deployed to Nvidia Triton server. We usually call Triton inference server and others inference engines because Triton is responsible for managing resources for n models using different engines. In Triton, inference engines also call backends.
 
 ![pipeline](https://github.com/efficient-edge/e2e-detection/blob/main/media/three_stage.png)
 ## Why do we need e2e-detection?
