@@ -55,7 +55,6 @@ MMDeploy ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdeploy
 |e2e-detection|✔️|✔️||✔️|| -->
 ## TODO
 1. Nvidia Triton
-   1. Client applications
    - [ ] send/receive http requests
    - [ ] parse the results
    - [ ] run the pipeline with a docker
