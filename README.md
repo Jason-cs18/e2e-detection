@@ -1,16 +1,19 @@
 # e2e-detection
 e2e-detection is a toolkit to help deep learning engineers test their PyTorch/TensorFlow models on NVIDIA Triton inference server using different inference engines.
 
-Let me introduce the three-stage deployment pipeline. At first, deep learning scientists train their models through deep learning frameworks (TensorFlow/Pytorch). Second, trained models will be converted to inference-optimized formats (ONNX/TensorRT/OpenPPL/NCNN/MNN). Finally, the converted models will be deployed to Nvidia Triton server. We usually call Triton inference server and other inference engines because Triton is responsible for managing resources for x models using different engines. In Triton, inference engines also call backends.
+Let's introduce the three-stage deployment pipeline. At first, deep learning scientists train their models through deep learning frameworks (TensorFlow/Pytorch). Second, trained models will be converted to inference-optimized formats (ONNX/TensorRT/OpenPPL/NCNN/MNN). Finally, the converted models will be deployed to Nvidia Triton server. We usually call Triton inference server and other inference engines because Triton is responsible for managing resources for x models using different engines. In Triton, inference engines also call backends.
 
+![pipeline](https://github.com/Jason-cs18/e2e-detection/blob/main/out/media/three_stage.png)
 ## Why do we need e2e-detection?
 - Too many engineering efforts in three-stage deployment.
 - It is easy to meet dependency errors during deployment.
 
 ## What can we do?
+![pipeline](https://github.com/Jason-cs18/e2e-detection/blob/main/out/media/e2e_detection.png)
 - A Dockerfile to build all testing environments automatically.
 - Testing your Pytorch/TensorFlow models in fewer lines of code.
-
+- A use case of real-world deployment.
+![pipeline](https://github.com/Jason-cs18/e2e-detection/blob/main/out/media/case_execution.png)
 <!-- have tested many pre-trained models from a popular object detection library ([SenseTime-MMLab mmdetection](https://github.com/open-mmlab/mmdetection)) on two inference engines ([SenseTime-MMLab OpenPPL](https://github.com/openppl-public/ppl.nn) and [Nvidia Triton](https://github.com/triton-inference-server/server)).  -->
 
 > As a deep learning engineer, I highly recommend you use pre-trained models from [SenseTime-MMLab](https://github.com/open-mmlab) because the team is extremely active to develop advanced deep learning models for diverse tasks in video analytics (_i.e.,_ image classification ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmclassification.svg), object detection ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdetection.svg), semantic segmentation ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmsegmentation.svg), text detection ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmocr.svg), 3d object detection ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmdetection3d.svg), pose estimation ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmpose.svg) and video understanding based on action ![Github stars](https://img.shields.io/github/stars/open-mmlab/mmaction2.svg)).
